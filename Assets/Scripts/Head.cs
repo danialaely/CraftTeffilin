@@ -70,6 +70,12 @@ public class Head : MonoBehaviour
     public Sprite sprite4;
     public GameObject rotateTxt;
 
+    Quaternion originalrot;
+    public GameObject InventoryCassetteObj1;
+    public GameObject InventoryCassetteObj2;
+    public GameObject InventoryCassetteObj3;
+    public GameObject InventoryCassetteObj4;
+
     private void Start()
     {
         // Optional: Auto-assign the 3rd child if not assigned in inspector
@@ -86,6 +92,7 @@ public class Head : MonoBehaviour
         BoxHand.SetActive(false);
         ThirdChild = this.transform.GetChild(3);
         //paperBtn.interactable = false;
+        originalrot = this.transform.rotation;
     }
 
     void Update()
@@ -98,13 +105,56 @@ public class Head : MonoBehaviour
             currentDragged.transform.position = worldPos;
         }
 
-        if (Keyboard.current.dKey.isPressed && ThirdChild.childCount >= 6)
+        if (Keyboard.current.dKey.isPressed) //&& ThirdChild.childCount >= 6
         {
             transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+
+            //if current index =0 then rotate cassette 1
+            if (currentIndex == 0) 
+            {
+                InventoryCassetteObj1.transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+            }
+            else if (currentIndex == 1) 
+            {
+                InventoryCassetteObj2.transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+            }
+            else if (currentIndex == 2) 
+            {
+                InventoryCassetteObj3.transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+            }
+            else if (currentIndex == 3) 
+            {
+                InventoryCassetteObj4.transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
+            }
         }
-        else if (Keyboard.current.aKey.isPressed && ThirdChild.childCount >= 6)
+        else if (Keyboard.current.aKey.isPressed) //&& ThirdChild.childCount >= 6
         {
             transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
+
+            //if current index =0 then rotate cassette 1
+            if (currentIndex == 0)
+            {
+                InventoryCassetteObj1.transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
+            }
+            else if (currentIndex == 1)
+            {
+                InventoryCassetteObj2.transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
+            }
+            else if (currentIndex == 2)
+            {
+                InventoryCassetteObj3.transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
+            }
+            else if (currentIndex == 3)
+            {
+                InventoryCassetteObj4.transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
+            }
+        }
+        else
+        {
+            if (transform.rotation != originalrot) 
+            {
+                this.transform.rotation = originalrot;
+            }
         }
     }
 
@@ -156,7 +206,9 @@ public class Head : MonoBehaviour
     public void HeadBtn() 
     {
         inventoryPanel.SetActive(false);
-        HeadinventoryPanel.SetActive(true);
+        //HeadinventoryPanel.SetActive(true);
+        cassettePanel.SetActive(true);
+        //Open CassettePanel "Consist of Cassettes and Ayats"
         //BoxHand.SetActive(true);
     }
 
@@ -179,6 +231,20 @@ public class Head : MonoBehaviour
 
         BoxHand.SetActive(false);
     }
+
+    /* public void BeginDragCassette1() 
+    {
+        SelectCassette(0);
+        if (CassettePrefabs == null || currentIndex < 0 || currentIndex >= CassettePrefabs.Length) return;
+
+        currentDragged = Instantiate(CassettePrefabs[currentIndex], transform.position, Quaternion.Euler(-180f, 0f, 0f));
+        isDragging = true;
+        Slot.anyCassetteOverSlot = false;
+        Debug.Log("Dragging: " + CassettePrefabs[currentIndex].name);
+        //CassetteButtons[0].interactable = false;
+
+        BoxHand.SetActive(false);
+    } */
 
     public void BeginDragPaper()
     {
@@ -472,7 +538,7 @@ public class Head : MonoBehaviour
         //Set LeftCassette Prefab
         SelectCassette(0);
         //CassetteButtons[0].interactable = false;
-        cassettePanel.SetActive(false);
+        //cassettePanel.SetActive(false);
         targetImage.sprite = sprite1;
     }
 
@@ -481,7 +547,7 @@ public class Head : MonoBehaviour
         //Set LeftCassette Prefab
         SelectCassette(1);
         //CassetteButtons[1].interactable = false;
-        cassettePanel.SetActive(false);
+        //cassettePanel.SetActive(false);
         targetImage.sprite = sprite2;
     }
 
@@ -489,7 +555,7 @@ public class Head : MonoBehaviour
     {
         //Set LeftCassette Prefab
         SelectCassette(2);
-        cassettePanel.SetActive(false);
+        //cassettePanel.SetActive(false);
         //CassetteButtons[2].interactable = false;
         targetImage.sprite = sprite3;
     }
@@ -498,7 +564,7 @@ public class Head : MonoBehaviour
     {
         //Set LeftCassette Prefab
         SelectCassette(3);
-        cassettePanel.SetActive(false);
+        //cassettePanel.SetActive(false);
         //CassetteButtons[3].interactable = false;
         targetImage.sprite = sprite4;
     }
